@@ -19,7 +19,7 @@ class App extends React.Component {
 
 
   onAddCityClick = () => {
-    fetch('https://vast-sierra-37559.herokuapp.com//cities', {
+    fetch('https://vast-sierra-37559.herokuapp.com/cities', {
       method: 'post',
       headers: { 'Content-Type':'application/json' },
       body: JSON.stringify({
