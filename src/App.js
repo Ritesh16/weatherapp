@@ -41,7 +41,6 @@ class App extends React.Component {
         return response.json();
      })
      .then(data => {  
-      console.log(data);  
       if(this.status === true){
           this.setState({cities:data});
         }
