@@ -3,6 +3,7 @@ import Weather from './Weather';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import './city.css';
+import {URL} from '../constants';
 
 class City extends React.Component {
 
@@ -33,7 +34,7 @@ class City extends React.Component {
         var cityName = this.props.city.split(',');
         var city = cityName[0];
         var state = cityName[1];
-        var url = `https://vast-sierra-37559.herokuapp.com/Weather/city/${city}/State/${state}`;
+        var url = `${URL}Weather/city/${city}/State/${state}`;
 
         fetch(url)
         .then(response=>response.json())

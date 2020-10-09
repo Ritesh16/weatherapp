@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import CityList from './components/CityList';
 import AddCity from './components/AddCity';
+import {URL} from './constants';
 
 class App extends React.Component {
   constructor(){
@@ -9,7 +10,8 @@ class App extends React.Component {
       
     this.state = {
       cities: [],
-      city:''
+      city:'',
+      status:false
     };
   }
 
@@ -19,21 +21,48 @@ class App extends React.Component {
 
 
   onAddCityClick = () => {
-    fetch('https://vast-sierra-37559.herokuapp.com/cities', {
-      method: 'post',
-      headers: { 'Content-Type':'application/json' },
-      body: JSON.stringify({
+    if(this.state.city) {
+      var citiesUrl = `${URL}cities`;
+      fetch(citiesUrl, {
+        method: 'post',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify({
         city: this.state.city,
       })
-    })
-    .then(response => response.json())
-    .then(cities => {
-        this.setState({cities:cities});
-    })
+     })
+     .then(response => {
+       if(response.status === 200) {
+          this.status = true;
+       }
+       else{
+         this.status = false;
+       }
+
+        return response.json();
+     })
+     .then(data => {  
+      console.log(data);  
+      if(this.status === true){
+          this.setState({cities:data});
+        }
+        else{
+          alert(data.error);
+          this.setState({cities:data.cities});
+        }
+     })
+     .catch(err => {
+       alert('Some error has occured');
+     });
+    }
+    else{
+      alert('Please provide the city.');
+    }
+    
 }
 
   componentDidMount(){
-    fetch('https://vast-sierra-37559.herokuapp.com/cities')
+    var citiesUrl = `${URL}cities`;
+    fetch(citiesUrl)
         .then(response => response.json())
         .then(data => {
            this.setState({cities: data})
